@@ -10,5 +10,5 @@ def bubble_sort(nums):
                 # 交换
                 # nums[j], nums[j + 1] = nums[j + 1], nums[j]
     return nums      
-
 print(bubble_sort([9,5,6,8,1,3,2]))
+
