@@ -59,8 +59,7 @@ print(trimAll(" as  d fg g "))
 
 # dict迭代的是key。如果要迭代value，可以用for value in d.values()，如果要同时迭代key和value，可以用for k, v in d.items()。
 # 如何判断一个对象是可迭代对象呢？方法是通过collections模块的Iterable类型判断：
-from collections.abc import Iterable
-
+from collections.abc import Iterable ,Iterator
 print(isinstance("abc", Iterable))  # str是否可迭代
 # 如果要对list实现类似Java那样的下标循环怎么办？Python内置的enumerate函数可以把一个list变成索引-元素对，这样就可以在for循环中同时迭代索引和元素本身：
 for i, value in enumerate(["A", "B", "C"]):
@@ -124,7 +123,9 @@ list1 = ["Hello", "World", 18, "Apple", None]
 print([key.lower() if isinstance(key, str) else key for key in list1])
 
 
-# 生成器 要创建一个generator，有很多种方法。第一种方法很简单，只要把一个  列表生成式的[]  改成()，就创建了一个generator：
+# 生成器
+# 
+#  要创建一个generator，有很多种方法。第一种方法很简单，只要把一个  列表生成式的[]  改成()，就创建了一个generator：
 g = (x * x for x in range(10))
 print(g)  # <generator object <genexpr> at 0x000002B2DA06B9E0>
 
@@ -173,7 +174,7 @@ def triangles():
         S=N[:]        #将list N赋给S，通过S计算每一行
         S.append(0)    #将list添加0，作为最后一个元素，长度增加1
         # print(S,'S')
-        N=[S[i-1]+S[i] for i in range(len(S))] #通过S来计算得出N 列表生成式的[]
+        N=[S[i-1]+S[i] for i in range(len(S))] #通过S来计算得出N 列表生成式的[]ggit
 # N=[S[i-1]+S[i] for i in range(len(S))]
 #  设上一个N为[1,1]
 #  则S=[1,1,0]
@@ -186,3 +187,22 @@ print(next(triangles())) #[1]
 print(next(k)) #[1]
 print(next(k)) #[1,1]
 print(next(k)) #[1,2,1]
+
+# 迭代器
+# 可以直接作用于for循环的对象统称为可迭代对象：Iterable。
+# 一类是集合数据类型，如list [1,2,3,4]、tuple (1,2,3,4)、dict {"a":1,"b":2}、set {1,2,3,4}、str '1111' 等；
+# 一类是generator，包括生成器和带yield的generator function。
+# 可以使用isinstance()判断一个对象是否是Iterable对象：
+print(isinstance([],Iterable)) #True
+print(isinstance((),Iterable)) #True
+print(isinstance('',Iterable)) #True
+# 生成器都是Iterator对象，但list、dict、str虽然是Iterable，却不是Iterator。
+# 把list、dict、str等Iterable变成Iterator可以使用iter()函数：
+print(isinstance((x for x in range(10)), Iterator)) #true
+print(isinstance([], Iterator)) #False
+print(isinstance(iter([]),Iterator)) #True
+# Iterator甚至可以表示一个无限大的数据流，例如全体自然数。而使用list是永远不可能存储全体自然数的。
+
+# 凡是可作用于for循环的对象都是Iterable类型；
+# 凡是可作用于next()函数的对象都是Iterator类型，它们表示一个惰性计算的序列；
+# 集合数据类型如list、dict、str等是Iterable但不是Iterator，不过可以通过iter()函数获得一个Iterator对象。
