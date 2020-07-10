@@ -188,7 +188,7 @@ print(next(k)) #[1]
 print(next(k)) #[1,1]
 print(next(k)) #[1,2,1]
 
-# 迭代器
+# 迭代器 Iterable是可迭代的对象，Iterator是迭代器。
 # 可以直接作用于for循环的对象统称为可迭代对象：Iterable。
 # 一类是集合数据类型，如list [1,2,3,4]、tuple (1,2,3,4)、dict {"a":1,"b":2}、set {1,2,3,4}、str '1111' 等；
 # 一类是generator，包括生成器和带yield的generator function。
@@ -206,3 +206,11 @@ print(isinstance(iter([]),Iterator)) #True
 # 凡是可作用于for循环的对象都是Iterable类型；
 # 凡是可作用于next()函数的对象都是Iterator类型，它们表示一个惰性计算的序列；
 # 集合数据类型如list、dict、str等是Iterable但不是Iterator，不过可以通过iter()函数获得一个Iterator对象。
+print(type(range(10)))
+aaaa = iter(list(range(10)))
+print(aaaa)
+for key in aaaa:
+    print(key)
+
+print([key for key in range(5)]) #[0, 1, 2, 3, 4] 列表生成式
+print((key for key in range(5))) # <generator object <genexpr> at 0x000002741D0DBEB0>
